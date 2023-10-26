@@ -16,10 +16,10 @@ class ProjectApp {
 		this.env = require('./utils/env').default;
 		this.utils = require('./utils/utils').default;
 		this.classes = {};
-		this.modules = {};
-		this.components = {
-			Examples: require('../../includes/examples/examples').default,
+		this.modules = {
+			Form: require('./modules/Form').default,
 		};
+		this.components = {};
 		this.helpers = {};
 
 		window.addEventListener('load', () => {

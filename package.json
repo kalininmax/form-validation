@@ -57,6 +57,7 @@
 		"vnu-jar": "^23.4.11"
 	},
 	"dependencies": {
-		"gsap": "^3.11.5"
+		"gsap": "^3.11.5",
+		"pristinejs": "^1.1.0"
 	}
 }

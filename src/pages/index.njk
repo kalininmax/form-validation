@@ -1,6 +1,177 @@
 {% extends "../templates/page.njk" %}
 
 {% block mainContent %}
-	{% include "intro/intro.njk" %}
-	{% include "examples/examples.njk" %}
+
+<style>
+	h2 {
+		text-align: center;
+		margin-block: 1em 0.5em;
+	}
+
+	.form {
+		display: grid;
+		row-gap: 8px;
+		max-width: 400px;
+		margin: 0 auto;
+		margin-bottom: 50px;
+		padding: 20px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		background-color: #f8f8f8;
+	}
+
+	.form label {
+		display: block;
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
+	.form input[type="text"],
+	.form input[type="email"],
+	.form input[type="tel"],
+	.form textarea {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+	}
+
+	.form button[type="submit"] {
+		background-color: #4CAF50;
+		color: white;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 3px;
+		cursor: pointer;
+		margin-top: 8px;
+	}
+
+	.form button[disabled] {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+
+	.form button[type="submit"]:hover {
+		background-color: #45a049;
+	}
+
+	.input {
+		display: grid;
+	}
+
+	.input._success input,
+	.input._success textarea {
+		border-color: green;
+	}
+
+	.input._error input,
+	.input._error textarea {
+		border-color: red;
+	}
+
+	.pristine-error {
+		color: red;
+	}
+</style>
+
+<h2>Форма обратной связи</h2>
+
+<form class="form" data-form="feedback">
+	<div class="input">
+		<label for="name">Имя:</label>
+		<input
+			type="text"
+			name="name"
+			required
+			data-pristine-required-message="Заполните поле, пожалуйста"
+		>
+	</div>
+
+	<div class="input">
+		<label for="email">Email:</label>
+		<input
+			type="email"
+			name="email"
+			placeholder="example@example.com"
+			required
+			data-pristine-required-message="Заполните поле, пожалуйста"
+			data-pristine-email-message="Укажите валидный e-mail адрес"
+		>
+	</div>
+
+	<div class="input">
+		<label for="phone">Телефон:</label>
+		<input
+			type="tel"
+			name="phone"
+			required
+			data-pristine-required-message="Заполните поле, пожалуйста"
+		>
+	</div>
+
+	<div class="input">
+		<label for="about">Сообщение:</label>
+		<textarea
+			name="about"
+			rows="4"
+			required
+			data-pristine-required-message="Заполните поле, пожалуйста"
+		></textarea>
+	</div>
+
+	<button type="submit">Submit</button>
+</form>
+
+<h2>Форма регистрации</h2>
+
+<form class="form" data-form="register">
+	<div class="input">
+		<label for="name">Имя:</label>
+		<input
+			type="text"
+			name="name"
+			required
+			data-pristine-required-message="Заполните поле, пожалуйста"
+		>
+	</div>
+
+	<div class="input">
+		<label for="email">Email:</label>
+		<input
+			type="email"
+			name="email"
+			placeholder="example@example.com"
+			required
+			data-pristine-required-message="Заполните поле, пожалуйста"
+			data-pristine-email-message="Укажите валидный e-mail адрес"
+		>
+	</div>
+
+	<div class="input">
+		<label for="password">Пароль:</label>
+			<input
+				type="text"
+				name="password"
+				id="password-input"
+				required
+				pattern="/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}/g"
+				data-pristine-required-message="Заполните поле, пожалуйста"
+				data-pristine-pattern-message="Пароль должен быть длинной большее 6 символов, содержать большие и маленькие латинские буквы, цифры"
+			>
+	</div>
+
+	<div class="input">
+		<label for="password">Повторите пароль:</label>
+			<input
+				type="text"
+				name="repeat-password"
+				required
+				data-pristine-equals="#password-input"
+				data-pristine-required-message="Заполните поле, пожалуйста"
+				data-pristine-equals-message="Пароли не совпадают"
+			>
+	</div>
+
+	<button type="submit">Submit</button>
+</form>
 {% endblock %}
