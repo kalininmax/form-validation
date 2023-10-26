@@ -18,12 +18,17 @@ class ProjectApp {
 		this.classes = {};
 		this.modules = {
 			Form: require('./modules/Form').default,
+			Input: require('./modules/Input').default,
 		};
 		this.components = {};
 		this.helpers = {};
 
 		window.addEventListener('load', () => {
 			HTML_CLASSLIST.remove('_loading');
+
+			document
+				.querySelectorAll('.input')
+				.forEach((inputContainer) => new this.modules.Input(inputContainer));
 		});
 	}
 }
