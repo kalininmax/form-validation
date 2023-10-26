@@ -24,6 +24,8 @@
 		display: block;
 		font-weight: bold;
 		margin-bottom: 5px;
+		cursor: pointer;
+		width: fit-content;
 	}
 
 	.form input[type="text"],
@@ -57,6 +59,17 @@
 
 	.input {
 		display: grid;
+	}
+
+	.input._checkbox {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		font-size: 0.8em;
+	}
+
+	.input._checkbox label {
+		margin: 0;
 	}
 
 	.input._success input,
@@ -117,6 +130,11 @@
 			required
 			data-pristine-required-message="Заполните поле, пожалуйста"
 		></textarea>
+	</div>
+
+	<div class="input _checkbox">
+			<input id="ch1" type="checkbox" name="future" required data-pristine-required-message="Вы должны согласиться с условиями"/>
+			<label for="ch1">I accept the terms  and conditions</label>
 	</div>
 
 	<button type="submit">Submit</button>
