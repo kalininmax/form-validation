@@ -13,47 +13,88 @@ class Input {
 	init(container) {
 		this.container = container;
 
+		if (!this.container) {
+			return;
+		}
+
+		this.inputForm = this.container.closest('form');
+
 		if (container.classList.contains('_tel')) {
 			this.telInput = container.querySelector('input');
 
 			const iti = intlTelInput(this.telInput, {
 				utilsScript: UTILS_PATH,
 				initialCountry: 'auto',
-				geoIpLookup: function (callback) {
-					fetch('https://ipapi.co/json')
-						.then((res) => res.json())
-						.then((data) => {
-							callback(data.country_code);
-						})
-						.catch(() => {
-							callback('ru');
-						});
-				},
+				geoIpLookup: this.getCountryCode,
 				autoPlaceholder: 'polite',
 				dropdownContainer: container,
 				nationalMode: true,
 				separateDialCode: true,
-				customPlaceholder: function (selectedCountryPlaceholder) {
-					return selectedCountryPlaceholder;
-				},
+				customPlaceholder: (selectedCountryPlaceholder) =>
+					selectedCountryPlaceholder,
 			});
 
 			this.telInput.addEventListener('countrychange', () => {
 				if (this.telInput.mask) {
-					this.telInput.mask.updateOptions({
-						mask: getInputMask(this.telInput),
-					});
-
-					this.telInput.mask.unmaskedValue = '';
+					this.updateInputTelMask();
+					this.updateInputTelValidation();
 				}
 			});
 
 			iti.promise.then(() => {
-				this.telInput.mask = IMask(this.telInput, {
-					mask: getInputMask(this.telInput),
-				});
+				this.initInputTelMask();
+				this.initInputTelValidation();
 			});
 		}
+	}
+
+	updateInputTelMask() {
+		const inputMask = getInputMask(this.telInput);
+		this.telInput.mask.updateOptions({ mask: inputMask });
+		this.telInput.mask.unmaskedValue = '';
+		this.telInput.setAttribute('minlength', inputMask.length);
+	}
+
+	updateInputTelValidation() {
+		this.inputForm.validate.removeField(this.inputForm.inputs.phone);
+		this.initInputTelValidation();
+	}
+
+	initInputTelMask() {
+		const inputMask = getInputMask(this.telInput);
+		this.telInput.mask = IMask(this.telInput, { mask: inputMask });
+		this.telInput.setAttribute('minlength', inputMask.length);
+	}
+
+	initInputTelValidation() {
+		this.inputForm.validate.addField(
+			this.inputForm.inputs.phone,
+			[
+				{
+					rule: 'required',
+					errorMessage: 'Пожалуйста введите ваш телефон',
+				},
+				{
+					rule: 'minLength',
+					value: this.inputForm.inputs.phone.minLength,
+					errorMessage: 'Пожалуйста введите телефон в указанном формате',
+				},
+			],
+			{
+				errorsContainer: this.inputForm.inputs.phone.closest('.input-group'),
+			}
+		);
+	}
+
+	getCountryCode(callback) {
+		fetch('https://ipapi.co/json')
+			.then((res) => res.json())
+			.then((data) => {
+				callback(data.country_code);
+			})
+			.catch(() => {
+				callback('ru');
+			});
 	}
 }
 

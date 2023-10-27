@@ -17,7 +17,8 @@ class ProjectApp {
 		this.utils = require('./utils/utils').default;
 		this.classes = {};
 		this.modules = {
-			Form: require('./modules/Form').default,
+			// Form: require('./modules/Form').default,
+			JustValidateForm: require('./modules/JustValidateForm').default,
 			Input: require('./modules/Input').default,
 		};
 		this.components = {};
